@@ -1,5 +1,6 @@
 package me.itroned.backpacks.Objects;
 
+import me.itroned.backpacks.Backpacks;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -8,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,12 +19,14 @@ public class Backpack implements InventoryHolder {
     private String tier;
     private final String uuid;
     private int size;
+    private Backpack instance;
     //Makes sure only one player can open it at a time
     private final Map<Player, Boolean> openedBy = new ConcurrentHashMap<>();
 
     public Backpack(@NotNull String uuid, String tier, @Nullable ItemStack[] items){
         this.uuid = uuid;
         this.tier = tier;
+        instance = this;
         switch (tier) {
             case Tiers.TIER1:
                 this.size = 9;
@@ -89,17 +93,20 @@ public class Backpack implements InventoryHolder {
             return false;
         }
         //TODO Fix a way to make sure only one person can open the same backpack to prevent duping?
-        //openedBy.put(player, true);
+        openedBy.put(player, true);
         player.openInventory(inventory);
 
         return true;
     }
-    public void closeBackpack(Player player){
+    public void removeOpened(Player player){
         openedBy.remove(player);
     }
-
-
-
+    public void saveBackpack() throws IOException {
+        Backpacks.getInstance().saveSingleBackpack(uuid);
+    }
+    public Backpack getInstance(){
+        return instance;
+    }
     public boolean isOpen(){
         return !openedBy.isEmpty();
     }

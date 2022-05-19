@@ -27,7 +27,7 @@ public class BackpackCommandExecutor implements CommandExecutor {
             PersistentDataContainer container = meta.getPersistentDataContainer();
             container.set(Utility.createKey("backpack"), PersistentDataType.STRING, "true");
             //System.out.println(uuid);
-            container.set(Utility.createKey("uuid"), PersistentDataType.STRING, uuid);
+            container.set(Utility.createKey("backpackuuid"), PersistentDataType.STRING, uuid);
 
             icon.setItemMeta(meta);
             player.getInventory().addItem(icon);

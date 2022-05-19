@@ -3,6 +3,7 @@ version: '${project.version}'
 main: me.itroned.backpacks.Backpacks
 api-version: 1.18
 authors: [ iTroned ]
+softdepend: [PlaceholderAPI]
 commands:
   backpack:
     description: Backpack
