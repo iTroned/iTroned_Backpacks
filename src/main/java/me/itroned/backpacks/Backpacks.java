@@ -136,4 +136,19 @@ public final class Backpacks extends JavaPlugin implements Listener {
             }
         }
     }
+    @EventHandler
+    public void onSelectCrafting(PrepareItemCraftEvent event){
+        ItemStack itemToCraft = event.getInventory().getResult();
+        if(itemToCraft.getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack2"), PersistentDataType.STRING)){
+            if(!(event.getView().getTopInventory().getItem(5).getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack1"), PersistentDataType.STRING))){
+                event.getInventory().setResult(null);
+            }
+
+        }
+        else if(itemToCraft.getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack3"), PersistentDataType.STRING)){
+            if(!(event.getView().getTopInventory().getItem(5).getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack2"), PersistentDataType.STRING))){
+                event.getInventory().setResult(null);
+            }
+        }
+    }
 }
