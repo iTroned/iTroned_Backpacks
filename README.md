@@ -1,36 +1,44 @@
 # iTroned_Backpacks
-Minecraft Backpack plugin
+Minecraft Backpack plugin. Currently under development
+## Current version v1_1
 
 # Info
-Plugin adding simple backpacks with expensive crafting costs (Will be configurable in the future)
-The backpacks comes in three tiers where the previous tier is needed in the crafting recipe.
-The backpacks are saved to a backpacks.yml file and the backpack closed is saved whenever it is closed
-The inventory itself however is also saved in the RAM while the server is running, before replacing the file when all backpacks are saved during a shutdown.
-This means that now you can dupe items if the inventory is open and edited and the server gets killed. Trying to find a fix.
+Extra inventory space in the form of backpacks. Currently 5 tiers each adding 9 slots upon upgrading.
+Upgrading will keep items inside the backpack
 
-The loading is not optimized aswell yet as all the backpacks get loaded into a hashmap on launch. Suggestions welcome :)
-Feel free to build upon the code aswell.
+Each tier requires the previous tier in the middle of the crafting recipe
 
-Also having trouble saving items with custom nbt, as I have not implemented serializing. Would love some suggestions here!
+The red glass panes are placeholders and will not work as slots, Im working on automatic pickup and more tools!
 
-Would also love some suggestions for new default recipes for the items!
-
-### ** /backpack gives a working tier 1 backpack and needs permission ibackpacks.admin **
+** NB! Only tested on paper server! **
 
 ## Tier 1
 ### Recipe
-![image](https://user-images.githubusercontent.com/72600583/169407068-400bbb9c-fc89-442a-b3ae-d7d0373c5b6d.png)
+![Recipe1](https://user-images.githubusercontent.com/72600583/169617576-1954c65f-973f-4c29-9751-c307538dda27.png)
 ### Backpack
-![image](https://user-images.githubusercontent.com/72600583/169407810-b6456de0-081d-4643-9c7f-7752cd588015.png)
+![Inventory1](https://user-images.githubusercontent.com/72600583/169617588-5c3f5db0-b2a5-4a5b-9d78-7e846885cf03.png)
 
 ## Tier 2
 ### Recipe
-![image](https://user-images.githubusercontent.com/72600583/169407248-46b9574f-3087-416c-bfcc-b97bb87f6bac.png)
+![Recipe2](https://user-images.githubusercontent.com/72600583/169617617-faa4e83a-acb7-451a-9e67-51d1797f5b3e.png)
 ### Backpack
-![image](https://user-images.githubusercontent.com/72600583/169408886-09b95ef2-2622-477a-a7ff-4a8ac7fd16ae.png)
+![Inventory2](https://user-images.githubusercontent.com/72600583/169617630-ce6f4b51-27c4-42d1-a31b-0e61933dadf1.png)
 
 ## Tier 3
 ### Recipe
-![image](https://user-images.githubusercontent.com/72600583/169407284-8d9012b5-f249-4395-8760-7dbac4430016.png)
+![Recipe3](https://user-images.githubusercontent.com/72600583/169617638-8dea0f6e-d455-40f8-ae29-1c73fa76901c.png)
 ### Backpack
-![image](https://user-images.githubusercontent.com/72600583/169407393-06e19070-e7cd-45b7-9356-482b987b190c.png)
+![Inventory3](https://user-images.githubusercontent.com/72600583/169617643-c936893e-b8fa-43a3-9fcb-255c13928dd6.png)
+
+## Tier 4
+### Recipe
+![Recipe4](https://user-images.githubusercontent.com/72600583/169617688-c5859ebe-fbbb-4a40-afdd-60746b19a7c6.png)
+### Backpack
+![Inventory4](https://user-images.githubusercontent.com/72600583/169617692-adcddaec-dd73-416c-b15e-5f3c2065dfcb.png)
+
+## Tier 5
+### Recipe
+![Recipe5](https://user-images.githubusercontent.com/72600583/169617702-7e11248c-9714-40f1-bd4d-a1115a4a2b77.png)
+### Backpack
+![Inventory5](https://user-images.githubusercontent.com/72600583/169617707-dbcc7e5e-ddca-4629-a83a-6b069caf3d61.png)
+
