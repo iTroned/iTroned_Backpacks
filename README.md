@@ -10,7 +10,7 @@ Each tier requires the previous tier in the middle of the crafting recipe
 
 The red glass panes are placeholders and will not work as slots, Im working on automatic pickup and more tools!
 
-** NB! Only tested on paper server! **
+**NB! Only tested on paper server!**
 
 ## Tier 1
 ### Recipe
