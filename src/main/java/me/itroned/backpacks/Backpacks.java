@@ -24,9 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public final class Backpacks extends JavaPlugin implements Listener {
     private static Backpacks instance;
@@ -92,14 +90,23 @@ public final class Backpacks extends JavaPlugin implements Listener {
     }
     public static void saveBackpacks() throws IOException {
         backpackMap.forEach((key, backpack) -> {
-            ItemStack[] items = backpack.getInventory().getContents();
-            instance.getCustomConfig().set("backpacks." + key, items);
+            extractItems(key);
         });
         instance.getCustomConfig().save(customConfigFile);
     }
+
+    private static void extractItems(String key) {
+        ItemStack[] allItems = backpackMap.get(key).getInventory().getContents();
+        ArrayList<ItemStack> realItems = new ArrayList<>();
+        for(int i = 9; i < allItems.length; i++){
+            realItems.add(allItems[i]);
+        }
+        ItemStack[] items = realItems.toArray(new ItemStack[0]);
+        instance.getCustomConfig().set("backpacks." + key, items);
+    }
+
     public void saveSingleBackpack(String uuid) throws IOException {
-        ItemStack[] items = backpackMap.get(uuid).getInventory().getContents();
-        instance.getCustomConfig().set("backpacks." + uuid, items);
+        extractItems(uuid);
         instance.getCustomConfig().save(customConfigFile);
     }
     private void loadBackpacks(){

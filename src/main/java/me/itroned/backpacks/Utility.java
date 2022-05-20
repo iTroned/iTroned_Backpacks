@@ -32,6 +32,13 @@ public class Utility {
         else if(items.length == 27){
             tier = Tiers.TIER3;
         }
+        else if(items.length == 36){
+            tier = Tiers.TIER4;
+        }
+        else if(items.length == 45){
+            tier = Tiers.TIER5;
+        }
+        //TODO fix inventories that somehow get bugged??
         else{
             tier = Tiers.TIER1;
         }
