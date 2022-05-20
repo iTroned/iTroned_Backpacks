@@ -55,6 +55,38 @@ public class CraftingEvents implements Listener {
                 Backpacks.getBackpacks().get(uuid).upgrade();
             }
         }
+        if(container.has(Utility.createKey("backpack4"), PersistentDataType.STRING)){
+            ItemStack oldBackpack = event.getClickedInventory().getItem(5);
+            ItemMeta oldMeta = oldBackpack.getItemMeta();
+            PersistentDataContainer oldContainer = oldMeta.getPersistentDataContainer();
+            if(!oldContainer.has(Utility.createKey("backpack3"), PersistentDataType.STRING)){
+                event.getWhoClicked().sendMessage("§l§eThat was not a TIER 3 backpack used!");
+                event.setCancelled(true);
+            }
+            else{
+                String uuid = oldContainer.get(Utility.createKey("backpackuuid"), PersistentDataType.STRING);
+                //System.out.println(uuid);
+                container.set(Utility.createKey("backpackuuid"), PersistentDataType.STRING, uuid);
+                item.setItemMeta(meta);
+                Backpacks.getBackpacks().get(uuid).upgrade();
+            }
+        }
+        if(container.has(Utility.createKey("backpack5"), PersistentDataType.STRING)){
+            ItemStack oldBackpack = event.getClickedInventory().getItem(5);
+            ItemMeta oldMeta = oldBackpack.getItemMeta();
+            PersistentDataContainer oldContainer = oldMeta.getPersistentDataContainer();
+            if(!oldContainer.has(Utility.createKey("backpack4"), PersistentDataType.STRING)){
+                event.getWhoClicked().sendMessage("§l§eThat was not a TIER 4 backpack used!");
+                event.setCancelled(true);
+            }
+            else{
+                String uuid = oldContainer.get(Utility.createKey("backpackuuid"), PersistentDataType.STRING);
+                //System.out.println(uuid);
+                container.set(Utility.createKey("backpackuuid"), PersistentDataType.STRING, uuid);
+                item.setItemMeta(meta);
+                Backpacks.getBackpacks().get(uuid).upgrade();
+            }
+        }
     }
     @EventHandler
     public void onSelectCrafting(PrepareItemCraftEvent event){
@@ -68,6 +100,16 @@ public class CraftingEvents implements Listener {
             }
             else if(itemToCraft.getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack3"), PersistentDataType.STRING)){
                 if(!(event.getView().getTopInventory().getItem(5).getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack2"), PersistentDataType.STRING))){
+                    event.getInventory().setResult(null);
+                }
+            }
+            else if(itemToCraft.getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack4"), PersistentDataType.STRING)){
+                if(!(event.getView().getTopInventory().getItem(5).getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack3"), PersistentDataType.STRING))){
+                    event.getInventory().setResult(null);
+                }
+            }
+            else if(itemToCraft.getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack5"), PersistentDataType.STRING)){
+                if(!(event.getView().getTopInventory().getItem(5).getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack4"), PersistentDataType.STRING))){
                     event.getInventory().setResult(null);
                 }
             }

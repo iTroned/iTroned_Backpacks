@@ -40,6 +40,9 @@ public class Utility {
     }
     public static void openBackpack(@NotNull Player player, @NotNull String uuid){
         try{
+            if(!Backpacks.getBackpacks().containsKey(uuid)){
+                Backpacks.getInstance().loadSingleBackpack(uuid);
+            }
             Backpack backpack = Backpacks.getBackpacks().get(uuid);
             if(!backpack.openBackpack(player)){
                 player.sendMessage(ChatColor.RED + "Backpack is already open!");

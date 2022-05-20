@@ -37,6 +37,12 @@ public class Backpack implements InventoryHolder {
             case Tiers.TIER3:
                 this.size = 27;
                 break;
+            case Tiers.TIER4:
+                this.size = 36;
+                break;
+            case Tiers.TIER5:
+                this.size = 45;
+                break;
             default:
                 this.size = 0;
                 break;
@@ -71,7 +77,7 @@ public class Backpack implements InventoryHolder {
     }
     //Creates a new backpack with a new size
     public boolean upgrade(){
-        if(tier.equals(Tiers.TIER3)){
+        if(tier.equals(Tiers.TIER5)){
             return false;
         }
         ItemStack[] contents = getInventory().getContents();
@@ -83,16 +89,23 @@ public class Backpack implements InventoryHolder {
             tier = Tiers.TIER3;
             size = 27;
         }
+        else if(tier.equals(Tiers.TIER3)){
+            tier = Tiers.TIER4;
+            size = 36;
+        }
+        else if(tier.equals(Tiers.TIER4)){
+            tier = Tiers.TIER5;
+            size = 45;
+        }
         updateName();
         makeInventory();
         setContents(contents);
         return true;
     }
     public boolean openBackpack(Player player){
-        if(!openedBy.isEmpty()){
+        if(!openedBy.isEmpty()) {
             return false;
         }
-        //TODO Fix a way to make sure only one person can open the same backpack to prevent duping?
         openedBy.put(player, true);
         player.openInventory(inventory);
 

@@ -1,8 +1,6 @@
 package me.itroned.backpacks;
 
-import me.itroned.backpacks.EventHandlers.CraftingEvents;
-import me.itroned.backpacks.EventHandlers.OnBackpackClose;
-import me.itroned.backpacks.EventHandlers.OnBackpackUse;
+import me.itroned.backpacks.EventHandlers.*;
 import me.itroned.backpacks.Objects.Backpack;
 import me.itroned.backpacks.Objects.Tiers;
 import org.bukkit.Bukkit;
@@ -47,15 +45,14 @@ public final class Backpacks extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new OnBackpackUse(), this);
         getServer().getPluginManager().registerEvents(new OnBackpackClose(), this);
         getServer().getPluginManager().registerEvents(new CraftingEvents(), this);
+        getServer().getPluginManager().registerEvents(new OnBackpackPlace(), this);
+        getServer().getPluginManager().registerEvents(new OnBackpackClick(), this);
         getServer().getPluginCommand("backpack").setExecutor(new BackpackCommandExecutor());
         Bukkit.addRecipe(BackpackRecipes.getRecipeTier1());
         Bukkit.addRecipe(BackpackRecipes.getRecipeTier2());
         Bukkit.addRecipe(BackpackRecipes.getRecipeTier3());
-
-
-        if(instance.getCustomConfig().contains("backpacks")){
-            loadBackpacks();
-        }
+        Bukkit.addRecipe(BackpackRecipes.getRecipeTier4());
+        Bukkit.addRecipe(BackpackRecipes.getRecipeTier5());
     }
 
     @Override
@@ -107,9 +104,14 @@ public final class Backpacks extends JavaPlugin implements Listener {
     }
     private void loadBackpacks(){
         instance.getCustomConfig().getConfigurationSection("backpacks").getKeys(false).forEach(key ->{
-            ItemStack[] items = ((List<ItemStack>) this.getCustomConfig().get("backpacks." + key)).toArray(new ItemStack[0]);
+            ItemStack[] items = ((List<ItemStack>) instance.getCustomConfig().get("backpacks." + key)).toArray(new ItemStack[0]);
             Utility.createBackpack(items, key);
         });
+    }
+
+    public void loadSingleBackpack(String uuid){
+        ItemStack[] items = ((List<ItemStack>) instance.getCustomConfig().get("backpacks." + uuid)).toArray(new ItemStack[0]);
+        Utility.createBackpack(items, uuid);
     }
 
 }

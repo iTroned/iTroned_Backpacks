@@ -1,26 +1,35 @@
 package me.itroned.backpacks;
 
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-
+import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.UUID;
 
 public class BackpackRecipes {
     public static ShapedRecipe getRecipeTier1(){
-        ItemStack item = new ItemStack(Material.LEATHER);
+        ItemStack item = getBackpackHead();
+        //ItemStack item = new ItemStack(Material.LEATHER);
         ItemMeta meta = item.getItemMeta();
+
+        //meta.addEnchant(Enchantment.DURABILITY, 1, true);
+        //meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
         meta.setDisplayName("§l§aBackpack Tier 1");
         meta.setLore(Collections.singletonList(ChatColor.RED + "Small pouch"));
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(Utility.createKey("backpack"), PersistentDataType.STRING, "true");
         container.set(Utility.createKey("backpack1"), PersistentDataType.STRING, "true");
 
         NamespacedKey key = Utility.createKey("backpacktier1");
@@ -28,19 +37,19 @@ public class BackpackRecipes {
         item.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("TET", "EXE", "TET");
-        recipe.setIngredient('E', Material.DIAMOND);
-        recipe.setIngredient('T', Material.NETHERITE_INGOT);
-        recipe.setIngredient('X', Material.NETHER_STAR);
+        recipe.setIngredient('E', Material.LEATHER);
+        recipe.setIngredient('T', Material.IRON_INGOT);
+        recipe.setIngredient('X', Material.SHULKER_BOX);
 
         return recipe;
     }
     public static ShapedRecipe getRecipeTier2(){
-        ItemStack item = new ItemStack(Material.LEATHER);
+        ItemStack item = getBackpackHead();
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§l§9Backpack Tier 2");
-        meta.setLore(Collections.singletonList(ChatColor.RED + "More like a bag"));
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.setDisplayName("§l§bBackpack Tier 2");
+        meta.setLore(Collections.singletonList(ChatColor.RED + "More like a shopping net"));
         PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(Utility.createKey("backpack"), PersistentDataType.STRING, "true");
         container.set(Utility.createKey("backpack2"), PersistentDataType.STRING, "true");
 
         NamespacedKey key = Utility.createKey("backpacktier2");
@@ -48,19 +57,19 @@ public class BackpackRecipes {
         item.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("TET", "EXE", "TET");
-        recipe.setIngredient('E', Material.DIAMOND_BLOCK);
-        recipe.setIngredient('T', Material.NETHERITE_INGOT);
-        recipe.setIngredient('X', Material.LEATHER);
+        recipe.setIngredient('E', Material.LEATHER);
+        recipe.setIngredient('T', Material.GOLD_INGOT);
+        recipe.setIngredient('X', Material.PLAYER_HEAD);
 
         return recipe;
     }
     public static ShapedRecipe getRecipeTier3(){
-        ItemStack item = new ItemStack(Material.LEATHER);
+        ItemStack item = getBackpackHead();
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§l§6Backpack Tier 3");
-        meta.setLore(Collections.singletonList(ChatColor.RED + "Bottomless"));
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.setDisplayName("§l§dBackpack Tier 3");
+        meta.setLore(Collections.singletonList(ChatColor.RED + "Hitching Sack"));
         PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(Utility.createKey("backpack"), PersistentDataType.STRING, "true");
         container.set(Utility.createKey("backpack3"), PersistentDataType.STRING, "true");
 
         NamespacedKey key = Utility.createKey("backpacktier3");
@@ -68,10 +77,67 @@ public class BackpackRecipes {
         item.setItemMeta(meta);
         ShapedRecipe recipe = new ShapedRecipe(key, item);
         recipe.shape("TET", "EXE", "TET");
-        recipe.setIngredient('E', Material.PLAYER_HEAD);
-        recipe.setIngredient('T', Material.NETHERITE_INGOT);
-        recipe.setIngredient('X', Material.LEATHER);
+        recipe.setIngredient('E', Material.LEATHER);
+        recipe.setIngredient('T', Material.DIAMOND);
+        recipe.setIngredient('X', Material.PLAYER_HEAD);
 
         return recipe;
+    }
+    public static ShapedRecipe getRecipeTier4(){
+        ItemStack item = getBackpackHead();
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName("§l§cBackpack Tier 4");
+        meta.setLore(Collections.singletonList(ChatColor.RED + "Women's purse"));
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(Utility.createKey("backpack"), PersistentDataType.STRING, "true");
+        container.set(Utility.createKey("backpack4"), PersistentDataType.STRING, "true");
+
+        NamespacedKey key = Utility.createKey("backpacktier4");
+
+        item.setItemMeta(meta);
+        ShapedRecipe recipe = new ShapedRecipe(key, item);
+        recipe.shape("TET", "EXE", "TET");
+        recipe.setIngredient('E', Material.LEATHER);
+        recipe.setIngredient('T', Material.EMERALD);
+        recipe.setIngredient('X', Material.PLAYER_HEAD);
+
+        return recipe;
+    }
+    public static ShapedRecipe getRecipeTier5(){
+        ItemStack item = getBackpackHead();
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName("§l§eBackpack Tier 5");
+        meta.setLore(Collections.singletonList(ChatColor.RED + "Bottomless"));
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(Utility.createKey("backpack"), PersistentDataType.STRING, "true");
+        container.set(Utility.createKey("backpack5"), PersistentDataType.STRING, "true");
+
+        NamespacedKey key = Utility.createKey("backpacktier5");
+
+        item.setItemMeta(meta);
+        ShapedRecipe recipe = new ShapedRecipe(key, item);
+        recipe.shape("TET", "EXE", "TET");
+        recipe.setIngredient('E', Material.LEATHER);
+        recipe.setIngredient('T', Material.NETHERITE_INGOT);
+        recipe.setIngredient('X', Material.PLAYER_HEAD);
+
+        return recipe;
+    }
+    private static ItemStack getBackpackHead(){
+        ItemStack item = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta meta = (SkullMeta) item.getItemMeta();
+
+        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        profile.getProperties().put("textures", new Property("textures", "40b1b53674918391a07a9d00582c058f9280bc526a716c796ee5eab4be10a760"));
+        Field profileField;
+        try {
+            profileField = meta.getClass().getDeclaredField("profile");
+            profileField.setAccessible(true);
+            profileField.set(meta, profile);
+        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ignored) {
+
+        }
+        item.setItemMeta(meta);
+        return item;
     }
 }
