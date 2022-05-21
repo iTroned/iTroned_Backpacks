@@ -4,6 +4,7 @@ import me.itroned.backpacks.Backpacks;
 import me.itroned.backpacks.Objects.Backpack;
 import me.itroned.backpacks.Utility;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -18,6 +19,8 @@ public class OnBackpackClick implements Listener {
         if(event.getCurrentItem() == null){
             return;
         }
+        Backpack backpack = (Backpack) event.getView().getTopInventory().getHolder();
+        Player player = (Player) event.getWhoClicked();
         //Backpacks.getInstance().getLogger().info("Backpack clicked");
         if(event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack"), PersistentDataType.STRING)){
             event.setCancelled(true);
@@ -27,6 +30,14 @@ public class OnBackpackClick implements Listener {
         }
         if(event.getSlot() < 9 && event.getClickedInventory().getHolder() instanceof Backpack){
             event.setCancelled(true);
+            int slot = event.getSlot();
+            switch (slot){
+                case 0:
+                    Utility.renameBackpack(backpack, player);
+                default:
+                    break;
+            }
+
         }
     }
 }

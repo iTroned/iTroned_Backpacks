@@ -1,6 +1,7 @@
 package me.itroned.backpacks.EventHandlers;
 
 import me.itroned.backpacks.Backpacks;
+import me.itroned.backpacks.Objects.Backpack;
 import me.itroned.backpacks.Utility;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,17 +12,20 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.io.IOException;
+
 public class CraftingEvents implements Listener {
     @EventHandler
-    public void onCraft(CraftItemEvent event){
+    public void onCraft(CraftItemEvent event) throws IOException {
         //System.out.println("Crafting");
         ItemStack item = event.getCurrentItem();
         ItemMeta meta = item.getItemMeta();
         PersistentDataContainer container = meta.getPersistentDataContainer();
         if(container.has(Utility.createKey("backpack1"), PersistentDataType.STRING)){
-            String uuid = Utility.createBackpack(null, null);
-            container.set(Utility.createKey("backpackuuid"), PersistentDataType.STRING, uuid);
+            Backpack backpack = Utility.createBackpack(null, event.getWhoClicked().getName(), item);
+            container.set(Utility.createKey("backpackuuid"), PersistentDataType.STRING, backpack.getUuid());
             item.setItemMeta(meta);
+            //Backpacks.getInstance().unloadSingleBackpack(backpack.getUuid());
         }
         if(container.has(Utility.createKey("backpack2"), PersistentDataType.STRING)){
             ItemStack oldBackpack = event.getClickedInventory().getItem(5);
@@ -33,10 +37,10 @@ public class CraftingEvents implements Listener {
             }
             else{
                 String uuid = oldContainer.get(Utility.createKey("backpackuuid"), PersistentDataType.STRING);
-                //System.out.println(uuid);
                 container.set(Utility.createKey("backpackuuid"), PersistentDataType.STRING, uuid);
                 item.setItemMeta(meta);
                 Backpacks.getBackpacks().get(uuid).upgrade();
+                //Backpacks.getInstance().unloadSingleBackpack(uuid);
             }
         }
         if(container.has(Utility.createKey("backpack3"), PersistentDataType.STRING)){
@@ -53,6 +57,7 @@ public class CraftingEvents implements Listener {
                 container.set(Utility.createKey("backpackuuid"), PersistentDataType.STRING, uuid);
                 item.setItemMeta(meta);
                 Backpacks.getBackpacks().get(uuid).upgrade();
+                //Backpacks.getInstance().unloadSingleBackpack(uuid);
             }
         }
         if(container.has(Utility.createKey("backpack4"), PersistentDataType.STRING)){
@@ -69,6 +74,7 @@ public class CraftingEvents implements Listener {
                 container.set(Utility.createKey("backpackuuid"), PersistentDataType.STRING, uuid);
                 item.setItemMeta(meta);
                 Backpacks.getBackpacks().get(uuid).upgrade();
+                //Backpacks.getInstance().unloadSingleBackpack(uuid);
             }
         }
         if(container.has(Utility.createKey("backpack5"), PersistentDataType.STRING)){
@@ -85,6 +91,7 @@ public class CraftingEvents implements Listener {
                 container.set(Utility.createKey("backpackuuid"), PersistentDataType.STRING, uuid);
                 item.setItemMeta(meta);
                 Backpacks.getBackpacks().get(uuid).upgrade();
+                //Backpacks.getInstance().unloadSingleBackpack(uuid);
             }
         }
     }

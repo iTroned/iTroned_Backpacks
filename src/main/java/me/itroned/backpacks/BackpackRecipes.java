@@ -26,8 +26,8 @@ public class BackpackRecipes {
         //meta.addEnchant(Enchantment.DURABILITY, 1, true);
         //meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
-        meta.setDisplayName("§l§aBackpack Tier 1");
-        meta.setLore(Collections.singletonList(ChatColor.RED + "Small pouch"));
+        meta.setDisplayName("§a§lBackpack Tier 1");
+        meta.setLore(Collections.singletonList("§aBackpack Tier 1"));
         PersistentDataContainer container = meta.getPersistentDataContainer();
         container.set(Utility.createKey("backpack"), PersistentDataType.STRING, "true");
         container.set(Utility.createKey("backpack1"), PersistentDataType.STRING, "true");
@@ -46,8 +46,8 @@ public class BackpackRecipes {
     public static ShapedRecipe getRecipeTier2(){
         ItemStack item = getBackpackHead();
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§l§bBackpack Tier 2");
-        meta.setLore(Collections.singletonList(ChatColor.RED + "More like a shopping net"));
+        meta.setDisplayName("§b§lBackpack Tier 2");
+        meta.setLore(Collections.singletonList("§bBackpack Tier 2"));
         PersistentDataContainer container = meta.getPersistentDataContainer();
         container.set(Utility.createKey("backpack"), PersistentDataType.STRING, "true");
         container.set(Utility.createKey("backpack2"), PersistentDataType.STRING, "true");
@@ -66,8 +66,8 @@ public class BackpackRecipes {
     public static ShapedRecipe getRecipeTier3(){
         ItemStack item = getBackpackHead();
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§l§dBackpack Tier 3");
-        meta.setLore(Collections.singletonList(ChatColor.RED + "Hitching Sack"));
+        meta.setDisplayName("§d§lBackpack Tier 3");
+        meta.setLore(Collections.singletonList("§dBackpack Tier 3"));
         PersistentDataContainer container = meta.getPersistentDataContainer();
         container.set(Utility.createKey("backpack"), PersistentDataType.STRING, "true");
         container.set(Utility.createKey("backpack3"), PersistentDataType.STRING, "true");
@@ -86,8 +86,8 @@ public class BackpackRecipes {
     public static ShapedRecipe getRecipeTier4(){
         ItemStack item = getBackpackHead();
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§l§cBackpack Tier 4");
-        meta.setLore(Collections.singletonList(ChatColor.RED + "Women's purse"));
+        meta.setDisplayName("§c§lBackpack Tier 4");
+        meta.setLore(Collections.singletonList("§cBackpack Tier 4"));
         PersistentDataContainer container = meta.getPersistentDataContainer();
         container.set(Utility.createKey("backpack"), PersistentDataType.STRING, "true");
         container.set(Utility.createKey("backpack4"), PersistentDataType.STRING, "true");
@@ -106,8 +106,8 @@ public class BackpackRecipes {
     public static ShapedRecipe getRecipeTier5(){
         ItemStack item = getBackpackHead();
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§l§eBackpack Tier 5");
-        meta.setLore(Collections.singletonList(ChatColor.RED + "Bottomless"));
+        meta.setDisplayName("§e§lBackpack Tier 5");
+        meta.setLore(Collections.singletonList("§eBackpack Tier 5"));
         PersistentDataContainer container = meta.getPersistentDataContainer();
         container.set(Utility.createKey("backpack"), PersistentDataType.STRING, "true");
         container.set(Utility.createKey("backpack5"), PersistentDataType.STRING, "true");

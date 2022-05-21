@@ -19,7 +19,7 @@ public class OnBackpackUse implements Listener {
         Player player = event.getPlayer();
         if ((event.getAction().equals(Action.RIGHT_CLICK_AIR) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) && itemUsed.getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack"), PersistentDataType.STRING)) {
             String uuid = itemUsed.getItemMeta().getPersistentDataContainer().get(Utility.createKey("backpackuuid"), PersistentDataType.STRING);
-            Utility.openBackpack(player, uuid);
+            Utility.openBackpack(player, uuid, event.getItem());
         }
 
     }

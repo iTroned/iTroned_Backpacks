@@ -16,10 +16,10 @@ import java.util.Collections;
 public class BackpackCommandExecutor implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-        Player player = (Player) sender;
+        /*Player player = (Player) sender;
         if(player.hasPermission("ibackpacks.admin")){
             ItemStack icon = new ItemStack(Material.LEATHER);
-            String uuid = Utility.createBackpack(null, null);
+            //String uuid = Utility.createBackpack(null, null, null);
             ItemMeta meta = icon.getItemMeta();
             meta.setDisplayName(ChatColor.GOLD + "Backpack");
             meta.setLore(Collections.singletonList(ChatColor.RED + "Is backpack"));
@@ -32,7 +32,7 @@ public class BackpackCommandExecutor implements CommandExecutor {
             icon.setItemMeta(meta);
             player.getInventory().addItem(icon);
             return true;
-        }
+        }*/
         return false;
     }
 }
