@@ -2,6 +2,7 @@ package me.itroned.backpacks;
 
 import me.itroned.backpacks.Objects.Backpack;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.io.BukkitObjectInputStream;
@@ -88,6 +89,30 @@ public class B64Serializer{
             throw new IOException("Unable to decode class type.", e);
         }
     }
+    public static String itemStackToB64(ItemStack item) throws IllegalStateException{
+        try{
+            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+            BukkitObjectOutputStream bukkitStream = new BukkitObjectOutputStream(byteStream);
+            bukkitStream.writeObject(item);
+            bukkitStream.close();
+            return Base64Coder.encodeLines(byteStream.toByteArray());
+        }
+        catch (Exception e){
+            throw new IllegalStateException("Unable to save item stacks.", e);
+        }
+    }
+    public static ItemStack itemStackFromB64(String data) throws IOException{
+        try{
+            ByteArrayInputStream byteStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
+            BukkitObjectInputStream bukkitStream = new BukkitObjectInputStream(byteStream);
+            ItemStack item = (ItemStack) bukkitStream.readObject();
+            bukkitStream.close();
+            return item;
+        }
+        catch (ClassNotFoundException e){
+            throw new IOException("Unable to decode class type.", e);
+        }
+    }
 
     public static String[] backpackToB64(Backpack backpack) throws IllegalStateException {
         ItemStack[] allItems = backpack.getInventory().getContents();
@@ -100,11 +125,12 @@ public class B64Serializer{
         String name = backpack.getName();
         String tier = backpack.getTier();
         String uuid = backpack.getUuid();
-        return new String[] {b64Items, name, tier, uuid};
+        String filterItem = backpack.getFilterItem().toString();
+        return new String[] {b64Items, name, tier, uuid, filterItem};
     }
 
     public static Backpack backpackFromB64(String[] data, ItemStack ownerItem) throws IOException {
         ItemStack[] items = itemStackArrayFromB64(data[0]);
-        return new Backpack(items, data[1], data[2], data[3], ownerItem);
+        return new Backpack(items, data[1], data[2], data[3], ownerItem, Material.valueOf(data[4]));
     }
 }

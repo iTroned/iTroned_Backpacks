@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.UUID;
 
 public class Utility {
@@ -65,6 +66,14 @@ public class Utility {
         renameTag.setItemMeta(meta);
         return renameTag;
     }
+    public static ItemStack getSortBackpackItem(){
+        ItemStack renameTag = new ItemStack(Material.HOPPER);
+        ItemMeta meta = renameTag.getItemMeta();
+        meta.setDisplayName("§a§lSort Backpack");
+        meta.getPersistentDataContainer().set(Utility.createKey("odaso"), PersistentDataType.STRING, "sds");
+        renameTag.setItemMeta(meta);
+        return renameTag;
+    }
 
 
     public static void renameBackpack(Backpack backpack, Player player){
@@ -97,4 +106,7 @@ public class Utility {
         Conversation conversation = factory.buildConversation(player);
         conversation.begin();
     }
+
+
+
 }

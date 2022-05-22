@@ -2,24 +2,13 @@ package me.itroned.backpacks;
 
 import me.itroned.backpacks.EventHandlers.*;
 import me.itroned.backpacks.Objects.Backpack;
-import me.itroned.backpacks.Objects.Tiers;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.inventory.CraftItemEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -34,6 +23,19 @@ public final class Backpacks extends JavaPlugin implements Listener {
 
     private static File customConfigFile;
     private FileConfiguration customConfig;
+    //Compares the item names and returns alphabetically
+    Comparator<ItemStack> comparator = new Comparator<ItemStack>() {
+        @Override
+        public int compare(ItemStack item1, ItemStack item2) {
+            if(item1 == null){
+                return 1;
+            }
+            if(item2 == null){
+                return 0;
+            }
+            return item1.getType().toString().compareTo(item2.getType().toString());
+        }
+    };
 
     @Override
     public void onEnable() {
@@ -46,6 +48,7 @@ public final class Backpacks extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new CraftingEvents(), this);
         getServer().getPluginManager().registerEvents(new OnBackpackPlace(), this);
         getServer().getPluginManager().registerEvents(new OnBackpackClick(), this);
+        getServer().getPluginManager().registerEvents(new OnItemPickup(), this);
         //getServer().getPluginCommand("backpack").setExecutor(new BackpackCommandExecutor());
         Bukkit.addRecipe(BackpackRecipes.getRecipeTier1());
         Bukkit.addRecipe(BackpackRecipes.getRecipeTier2());
@@ -125,6 +128,9 @@ public final class Backpacks extends JavaPlugin implements Listener {
     public void unloadSingleBackpack(String uuid) throws IOException {
         saveSingleBackpack(uuid);
         backpackMap.remove(uuid);
+    }
+    public Comparator getComparator(){
+        return comparator;
     }
 
 }

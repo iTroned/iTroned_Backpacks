@@ -5,7 +5,6 @@ import me.itroned.backpacks.Backpacks;
 import me.itroned.backpacks.Utility;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -15,10 +14,10 @@ import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,6 +29,7 @@ public class Backpack implements InventoryHolder, Serializable {
     private final String uuid;
     private int size;
     private ItemStack ownerItem;
+    private Material filterItem;
 
     //Makes sure only one player can open it at a time
     private final Map<Player, Boolean> openedBy = new ConcurrentHashMap<>();
@@ -44,9 +44,10 @@ public class Backpack implements InventoryHolder, Serializable {
         this.size = 18;
         makeInventory();
         updateName(this.name);
+        setFilterItem(new ItemStack(Material.COBBLESTONE), null);
         setContents(null);
     }
-    public Backpack(ItemStack[] items, String name, String tier, String uuid, ItemStack ownerItem){
+    public Backpack(ItemStack[] items, String name, String tier, String uuid, ItemStack ownerItem, Material filterItem){
         this.name = name;
         this.tier = tier;
         this.uuid = uuid;
@@ -78,6 +79,7 @@ public class Backpack implements InventoryHolder, Serializable {
         makeInventory();
         updateName(this.name);
         setContents(items);
+        setFilterItem(new ItemStack(filterItem), null);
     }
     public String[] serializeBackpack(){
         return B64Serializer.backpackToB64(this);
@@ -88,7 +90,8 @@ public class Backpack implements InventoryHolder, Serializable {
 
     public void setContents(@Nullable ItemStack... items){
         inventory.setItem(0, Utility.getRenameBackpackItem());
-        for(int i = 1; i < 9; i++){
+        inventory.setItem(1, Utility.getSortBackpackItem());
+        for(int i = 2; i < 8; i++){
             inventory.setItem(i, placeholderItem);
         }
         if(items != null){
@@ -96,6 +99,7 @@ public class Backpack implements InventoryHolder, Serializable {
                 inventory.setItem(i + 9, items[i]);
             }
         }
+
     }
 
     public void updateName(String name){
@@ -108,6 +112,13 @@ public class Backpack implements InventoryHolder, Serializable {
         ItemStack[] items = getRealItems();
         makeInventory();
         setContents(items);
+        if(filterItem != null){
+            setFilterItem(new ItemStack(filterItem), null);
+        }
+        else{
+            setFilterItem(new ItemStack(Material.COBBLESTONE), null);
+        }
+
     }
     //Creates a new backpack with a new size
     public boolean upgrade(){
@@ -162,6 +173,50 @@ public class Backpack implements InventoryHolder, Serializable {
 
         return true;
     }
+    public void sortInventory(Player player){
+        ItemStack[] items = getRealItems();
+        ArrayList<ItemStack> itemList = new ArrayList<>();
+        Collections.addAll(itemList, items);
+
+        itemList.sort(Backpacks.getInstance().getComparator());
+        player.closeInventory();
+        makeInventory();
+        setContents(null);
+        setFilterItem(new ItemStack(filterItem), null);
+        for(ItemStack item : itemList){
+            if(item == null){
+                continue;
+            }
+            inventory.addItem(item);
+        }
+        openBackpack(player);
+    }
+    public void setFilterItem(@NotNull ItemStack item, @Nullable Player player){
+        if(item.getType().equals(Material.AIR)){
+            return;
+        }
+        ItemStack newItem = new ItemStack(item.getType());
+        ItemMeta meta = newItem.getItemMeta();
+        if(meta != null){
+            meta.setDisplayName("§6§lCurrently Picking Up");
+            meta.getPersistentDataContainer().set(Utility.createKey("odaso"), PersistentDataType.STRING, "sds");
+            newItem.setItemMeta(meta);
+            filterItem = item.getType();
+            setSlot(8, newItem, player);
+        }
+    }
+    public void setSlot(int index, @NotNull ItemStack item, @Nullable Player player){
+        if(index > 8 || index < 0){
+            return;
+        }
+        if(player == null){
+            inventory.setItem(index, item);
+            return;
+        }
+        player.closeInventory();
+        inventory.setItem(index, item);
+        openBackpack(player);
+    }
     public void setOwnerItem(ItemStack item){
         ownerItem = item;
     }
@@ -188,6 +243,9 @@ public class Backpack implements InventoryHolder, Serializable {
     }
     public String getName(){
         return name;
+    }
+    public Material getFilterItem(){
+        return filterItem;
     }
 
     @Override
