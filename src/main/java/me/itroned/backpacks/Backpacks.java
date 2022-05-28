@@ -49,6 +49,7 @@ public final class Backpacks extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new OnBackpackPlace(), this);
         getServer().getPluginManager().registerEvents(new OnBackpackClick(), this);
         getServer().getPluginManager().registerEvents(new OnItemPickup(), this);
+        //getServer().getPluginManager().registerEvents(new OnInventoryClick(), this);
         //getServer().getPluginCommand("backpack").setExecutor(new BackpackCommandExecutor());
         Bukkit.addRecipe(BackpackRecipes.getRecipeTier1());
         Bukkit.addRecipe(BackpackRecipes.getRecipeTier2());

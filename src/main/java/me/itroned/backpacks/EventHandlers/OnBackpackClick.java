@@ -19,47 +19,31 @@ import javax.xml.transform.Result;
 
 public class OnBackpackClick implements Listener {
     @EventHandler
-    public void onBackpackClick(InventoryClickEvent event){
-        if(!(event.getInventory().getHolder() instanceof Backpack)){
-            if(event.getInventory().getHolder() instanceof ShulkerBox){
-                if(event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack"), PersistentDataType.STRING)){
-                    event.setCancelled(true);
-                }
+    public void onBackpackClick(InventoryClickEvent event) {
+        if (!(event.getInventory().getHolder() instanceof Backpack)) {
+            if(event.getCurrentItem() == null && !event.getAction().equals(InventoryAction.HOTBAR_SWAP)){
+                return;
+            }
+            if (event.getInventory().getHolder() instanceof ShulkerBox) {
+                checkBackpackMove(event);
             }
             return;
         }
-        if(event.getCurrentItem() == null){
+        if(event.getCurrentItem() == null && !event.getAction().equals(InventoryAction.HOTBAR_SWAP)){
             return;
         }
         Backpack backpack = (Backpack) event.getView().getTopInventory().getHolder();
-        if(backpack == null){
+        if (backpack == null) {
             Bukkit.getLogger().info("Backpack does not exist!");
         }
         Player player = (Player) event.getWhoClicked();
-        //Backpacks.getInstance().getLogger().info("Backpack clicked");
-        if(event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack"), PersistentDataType.STRING)){
-            event.setCancelled(true);
-        }
-        //System.out.println(event.getClick().isKeyboardClick());
-        /*if(event.getAction().equals(InventoryAction.HOTBAR_SWAP)){
+        //Makes sure the item that is moved is not a backpack to make sure a backpack is not moved into a backpack
+        checkBackpackMove(event);
 
-        }
-        System.out.println(event.getAction());*/
-        /*int button = event.getHotbarButton();
-        System.out.println(button);
-        ItemStack itemMoved = event.getView().getBottomInventory().getItem(event.getHotbarButton());
-        System.out.println(event.getClick());*/
-        /*if(itemMoved != null && itemMoved.getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack"), PersistentDataType.STRING)){
-            event.setCancelled(true);
-        }*/
-        //TODO check if you can abuse shulker boxes
-        /*if(event.getCurrentItem().getType().equals(Material.SHULKER_BOX)){
-            event.setCancelled(true);
-        }*/
-        if(event.getSlot() < 9 && event.getClickedInventory().getHolder() instanceof Backpack){
+        if (event.getSlot() < 9 && event.getClickedInventory().getHolder() instanceof Backpack) {
             event.setCancelled(true);
             int slot = event.getSlot();
-            switch (slot){
+            switch (slot) {
                 case 0:
                     Utility.renameBackpack(backpack, player);
                     break;
@@ -67,7 +51,7 @@ public class OnBackpackClick implements Listener {
                     backpack.sortInventory(player);
                     break;
                 case 8:
-                    if(event.getCurrentItem() == null){
+                    if (event.getCurrentItem() == null) {
                         break;
                     }
                     backpack.setFilterItem(player.getItemOnCursor(), player);
@@ -78,8 +62,20 @@ public class OnBackpackClick implements Listener {
 
         }
     }
-    /*@EventHandler
-    public void onInventoryAction(InventoryInteractEvent event){
 
-    }*/
+    private void checkBackpackMove(InventoryClickEvent event) {
+        if ((event.getCurrentItem() != null) && (event.getCurrentItem().getItemMeta() != null) && (event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack"), PersistentDataType.STRING))) {
+            event.setCancelled(true);
+        }
+        else if((event.getAction().equals(InventoryAction.HOTBAR_SWAP)) || event.getAction().equals(InventoryAction.HOTBAR_MOVE_AND_READD)){
+            int slot = event.getHotbarButton();
+            ItemStack item = event.getView().getBottomInventory().getItem(slot);
+            if(item == null){
+                return;
+            }
+            if(item.getItemMeta().getPersistentDataContainer().has(Utility.createKey("backpack"), PersistentDataType.STRING)){
+                event.setCancelled(true);
+            }
+        }
+    }
 }
